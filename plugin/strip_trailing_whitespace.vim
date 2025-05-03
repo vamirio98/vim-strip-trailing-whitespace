@@ -154,7 +154,7 @@ endfunction
 " Ignore changes while that is the case.
 let s:is_stripping = 0
 
-function StripTrailingWhitespaceListener(bufnr, start, end, added, changes) abort
+function g:StripTrailingWhitespaceListener(bufnr, start, end, added, changes) abort
 	if s:is_stripping || b:stw_count > g:strip_trailing_whitespace_max_lines | return | endif
 
 	for change in a:changes
@@ -198,11 +198,11 @@ function s:OnBufEnter() abort
 		" Parsing the lua Ex command can fail on broken Vim <8.2.1908 installs
 		execute 'lua vim.api.nvim_buf_attach(0, false, {
 					\ on_lines = function(_, bufnr, _, firstline, lastline, new_lastline)
-					\ vim.api.nvim_call_function("StripTrailingWhitespaceListener", {bufnr, firstline + 1, lastline + 1, new_lastline - lastline,
+					\ vim.api.nvim_call_function("g:StripTrailingWhitespaceListener", {bufnr, firstline + 1, lastline + 1, new_lastline - lastline,
 					\ {{lnum = firstline + 1, ["end"] = lastline + 1, added = new_lastline - lastline, col = 1}}})
 					\ end, })'
 	else
-		call listener_add('StripTrailingWhitespaceListener')
+		call listener_add('g:StripTrailingWhitespaceListener')
 	endif
 endfunction
 
