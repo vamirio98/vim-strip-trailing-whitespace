@@ -155,6 +155,8 @@ endfunction
 let s:is_stripping = 0
 
 function g:StripTrailingWhitespaceListener(bufnr, start, end, added, changes) abort
+  let b:stw_count = get(b:, 'stw_count', 0)
+  let b:stw_root = get(b:, 'stw_root', v:null)
 	if s:is_stripping || b:stw_count > g:strip_trailing_whitespace_max_lines | return | endif
 
 	for change in a:changes
